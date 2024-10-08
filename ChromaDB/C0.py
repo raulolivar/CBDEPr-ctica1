@@ -2,7 +2,7 @@ import chromadb
 import time
 import statistics
 
-txt_file_path = "chun0.txt"
+txt_file_path = "Chun0.txt"
 
 with open(txt_file_path, "r", encoding="utf-8") as file:
     texts = [line.strip() for line in file.readlines()]

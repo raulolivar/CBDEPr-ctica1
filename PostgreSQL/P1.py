@@ -4,7 +4,6 @@ from sentence_transformers import SentenceTransformer
 import time
 import statistics
 
-# Cargar el modelo de embeddings
 model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
 def connect_to_postgres():
@@ -96,7 +95,6 @@ def main():
 
     conn.close()
     print("Embeddings inserted successfully!")
-
 
 if __name__ == "__main__":
     main()

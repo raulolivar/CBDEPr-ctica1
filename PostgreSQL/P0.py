@@ -8,16 +8,13 @@ import statistics
 nltk.download('punkt')
 nltk.download('punkt_tab')
 
-#Descarregar el dataset BookCorpus
 def download_dataset():
     dataset = load_dataset("bookcorpus", split='train', trust_remote_code=True)
     return dataset['text']
 
-#Dividir en oracions
 def split_into_sentences(text):
     return nltk.sent_tokenize(text)
 
-#Generar chunks de 10k oracions
 def generate_chunks(texts, chunk_size=10000):
     sentences = []
     chunk_list = []
@@ -28,13 +25,11 @@ def generate_chunks(texts, chunk_size=10000):
             chunk_list.append(sentences[:chunk_size])
             sentences = sentences[chunk_size:]
 
-    # Si queden oracions que no omplen un chunk sencer
     if sentences:
         chunk_list.append(sentences)
 
     return chunk_list
 
-#Crear la taula en PostgreSQL
 def create_table(conn):
     create_table_query = """
     CREATE TABLE  dataset_chunks (
@@ -48,7 +43,6 @@ def create_table(conn):
     conn.commit()
     cur.close()
 
-#Inserir els chunks a PostgreSQL
 def insert_sentences(conn, chunk_id, sentences):
     insert_query = sql.SQL("INSERT INTO dataset_chunks (chunk_id, sentence) VALUES (%s, %s)")
     cur = conn.cursor()
@@ -66,7 +60,6 @@ def insert_sentences(conn, chunk_id, sentences):
     print(f"Finished inserting sentences for chunk {chunk_id}. Total time: {end_time - start_time:.4f} seconds")
     return end_time - start_time
 
-# Conexió a la base de dades
 def connect_to_postgres():
     conn = psycopg2.connect(
         dbname='suppliers',
